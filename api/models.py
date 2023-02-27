@@ -20,3 +20,8 @@ class Reservation(models.Model):
 
     class Meta:
         unique_together = ('studio', 'date', 'time')
+
+
+class StudioEmployee(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    studio = models.ForeignKey(Studio, on_delete=models.CASCADE)
