@@ -14,8 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from users.views import MyTokenObtainPairView
+
+app_name = 'booking'
+
 
 urlpatterns = [
+    path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('admin/', admin.site.urls),
+    path('api/', include('api.urls', namespace='api')),
+
 ]
