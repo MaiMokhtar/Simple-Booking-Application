@@ -15,13 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from users.views import UserTokenObtainPairView
+
 from api.views import StudioTokenObtainPairView
+from users.views import SignUpView, LoginView, UserTokenObtainPairView
 
 app_name = 'booking'
 
 
 urlpatterns = [
+    path('signup/', SignUpView.as_view(), name='signup'),
+    path('login/', LoginView.as_view(), name='token_obtain_pair'),
     path('users/token/', UserTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/', StudioTokenObtainPairView.as_view(), name='token_obtain_pair'),
 
