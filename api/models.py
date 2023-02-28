@@ -11,11 +11,11 @@ class Studio(models.Model):
 
     It defines a studio object with the following attributes:
 
-    - name (str): The name of the studio.
-    - owner (User): The owner of the studio.
-    - employees (ManyToManyField): The employees associated with the studio.
-    - max_customers_per_day (int): The maximum number of customers per day that can be reserved.
-
+    Attributes:
+        name (str): The name of the studio.
+        owner (User): The owner of the studio.
+        employees (ManyToManyField): The employees associated with the studio.
+        max_customers_per_day (int): The maximum number of customers per day that can be reserved.
     """
     name = models.CharField(max_length=100)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='studios')
@@ -29,14 +29,14 @@ class Studio(models.Model):
         """Assigns an employee to the Studio object.
 
         Args:
-        self (Studio): The Studio object to which the employee will be assigned.
-        user (User): The employee User object to assign to the Studio.
+            self (Studio): The Studio object to which the employee will be assigned.
+            user (User): The employee User object to assign to the Studio.
 
         Raises:
-        ValueError: If the user is not an employee or if the employee is already assigned to this studio.
+            ValueError: If the user is not an employee or if the employee is already assigned to this studio.
 
         Returns:
-        None
+            None
         """
         if not user.is_employee:
             raise ValueError("User is not an employee")
@@ -51,12 +51,12 @@ class Reservation(models.Model):
 
     It defines a reservation object with the following attributes:
 
-    - customer (User): The customer who made the reservation.
-    - studio (Studio): The studio where the reservation is made.
-    - date (date): The date of the reservation.
-    - time (time): The time of the reservation.
-    - notes (str, optional): Any additional notes for the reservation.
-
+    Attributes:
+        customer (User): The customer who made the reservation.
+        studio (Studio): The studio where the reservation is made.
+        date (date): The date of the reservation.
+        time (time): The time of the reservation.
+        notes (str, optional): Any additional notes for the reservation.
     """
     customer = models.ForeignKey(User, on_delete=models.CASCADE)
     studio = models.ForeignKey(Studio, on_delete=models.CASCADE)
@@ -72,14 +72,14 @@ class Reservation(models.Model):
         per day for the associated studio.
 
         Args:
-        self (Reservation): The Reservation object to validate.
+            self (Reservation): The Reservation object to validate.
 
         Raises:
-        ValidationError: If the number of customers for the reservation exceeds the maximum number of customers
+            ValidationError: If the number of customers for the reservation exceeds the maximum number of customers
                          allowed per day.
 
         Returns:
-        None
+            None
         """
         max_customers_per_day = self.studio.max_customers_per_day
         date = self.date
@@ -94,16 +94,16 @@ class Reservation(models.Model):
         the associated studio is not exceeded.
 
         Args:
-        self (Reservation): The Reservation object to save.
-        *args: Optional arguments to pass to the parent save method.
-        **kwargs: Optional keyword arguments to pass to the parent save method.
+            self (Reservation): The Reservation object to save.
+            *args: Optional arguments to pass to the parent save method.
+            **kwargs: Optional keyword arguments to pass to the parent save method.
 
         Raises:
-        ValidationError: If the number of customers for the reservation exceeds the maximum number of customers
-                         allowed per day.
+            ValidationError: If the number of customers for the reservation exceeds the maximum number of customers
+                             allowed per day.
 
         Returns:
-        None
+            None
         """
         self.validate_max_customers_per_day()
         super().save(*args, **kwargs)
@@ -114,8 +114,9 @@ class StudioEmployee(models.Model):
 
     It defines a relationship between a studio and an employee with the following attributes:
 
-    - user (User): The employee associated with the studio.
-    - studio (Studio): The studio where the employee works.
+    Attributes:
+        user (User): The employee associated with the studio.
+        studio (Studio): The studio where the employee works.
     """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     studio = models.ForeignKey(Studio, on_delete=models.CASCADE)
