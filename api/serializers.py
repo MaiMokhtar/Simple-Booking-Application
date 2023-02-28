@@ -1,12 +1,6 @@
 from rest_framework.serializers import ModelSerializer, ValidationError, IntegerField
-from .models import User, Studio, Reservation, StudioEmployee
+from .models import Studio, Reservation, StudioEmployee
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-
-
-class UserSerializer(ModelSerializer):
-    class Meta:
-        model = User
-        fields = '__all__'
 
 
 class StudioSerializer(ModelSerializer):

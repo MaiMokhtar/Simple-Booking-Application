@@ -3,15 +3,9 @@ from rest_framework.permissions import IsAuthenticated, BasePermission
 from django.core.exceptions import PermissionDenied
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .models import User, Studio, Reservation, StudioEmployee
-from .serializers import UserSerializer, StudioSerializer, ReservationSerializer, StudioEmployeeSerializer, \
+from .models import Studio, Reservation, StudioEmployee
+from .serializers import StudioSerializer, ReservationSerializer, StudioEmployeeSerializer, \
     StudioTokenObtainPairSerializer
-
-
-class UserViewSet(ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
 
 
 class StudioViewSet(ModelViewSet):
