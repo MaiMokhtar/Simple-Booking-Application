@@ -16,12 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from users.views import MyTokenObtainPairView
+from api.views import StudioTokenObtainPairView
 
 app_name = 'booking'
 
 
 urlpatterns = [
-    path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('users/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/', StudioTokenObtainPairView.as_view(), name='token_obtain_pair'),
+
     path('admin/', admin.site.urls),
     path('api/', include('api.urls', namespace='api')),
 

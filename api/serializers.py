@@ -1,5 +1,6 @@
-from rest_framework.serializers import ModelSerializer, ValidationError
+from rest_framework.serializers import ModelSerializer, ValidationError, IntegerField
 from .models import User, Studio, Reservation, StudioEmployee
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
 class UserSerializer(ModelSerializer):
@@ -42,3 +43,18 @@ class StudioEmployeeSerializer(ModelSerializer):
     def create(self, validated_data):
         # Create and return the new StudioEmployee object
         return StudioEmployee.objects.create(**validated_data)
+
+
+class StudioTokenObtainPairSerializer(TokenObtainPairSerializer):
+    studio_id = IntegerField(required=True)
+
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        data['studio_id'] = self.validated_data['studio_id']
+        return data
+
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        token['studio_id'] = user.studio_employee.studio_id
+        return token

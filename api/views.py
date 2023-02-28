@@ -1,8 +1,10 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated, BasePermission
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import User, Studio, Reservation, StudioEmployee
-from .serializers import UserSerializer, StudioSerializer, ReservationSerializer, StudioEmployeeSerializer
+from .serializers import UserSerializer, StudioSerializer, ReservationSerializer, StudioEmployeeSerializer, \
+    StudioTokenObtainPairSerializer
 
 
 class UserViewSet(ModelViewSet):
@@ -39,3 +41,7 @@ class StudioEmployeeViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+class StudioTokenObtainPairView(TokenObtainPairView):
+    serializer_class = StudioTokenObtainPairSerializer
