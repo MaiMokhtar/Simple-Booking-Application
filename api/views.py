@@ -31,7 +31,7 @@ class ReservationViewSet(ModelViewSet):
             studio = user.studioemployee.studio
             return Reservation.objects.filter(studio=studio)
 
-        elif user.is_owner:
+        elif user.is_studio_owner:
             # Filter reservations by all studios owned by user
             owned_studios = Studio.objects.filter(owner=user)
             return Reservation.objects.filter(studio__in=owned_studios)
@@ -52,7 +52,7 @@ class ReservationViewSet(ModelViewSet):
             if obj.studio != studio:
                 raise PermissionDenied("You don't have permission to view this reservation.")
 
-        elif user.is_owner:
+        elif user.is_studio_owner:
             studios = Studio.objects.filter(owner=user)
             if obj.studio not in studios:
                 raise PermissionDenied("You don't have permission to view this reservation.")
@@ -66,7 +66,7 @@ class IsStudioOwner(BasePermission):
     def has_permission(self, request, view):
         user = request.user
         studio_id = request.query_params.get('studio_id')
-        if user.is_authenticated and user.is_owner and studio_id:
+        if user.is_authenticated and user.is_studio_owner and studio_id:
             return user.studios.filter(id=studio_id).exists()
         else:
             return False
