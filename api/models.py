@@ -8,7 +8,7 @@ class Studio(models.Model):
     name = models.CharField(max_length=100)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='studios')
     employees = models.ManyToManyField(User, related_name='studios_employee')
-    max_customers_per_day = models.IntegerField(default=0)
+    max_customers_per_day = models.IntegerField(default=10)
 
     def __str__(self):
         return self.name
